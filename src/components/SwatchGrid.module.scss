@@ -29,6 +29,13 @@
   align-items: center;
 }
 
+.error {
+  color: red;
+  font-size: 30px;
+  text-align: center;
+  width: 100%;
+}
+
 .toast {
   position: fixed;
   bottom: 20px;

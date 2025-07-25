@@ -2,34 +2,39 @@ export async function generateDistinctColors(
   apiCallback,
   saturation,
   lightness,
-  onStep,
-  partial
+  partial,
+  onError
 ) {
   const distinctColors = [];
   const seenNames = new Set();
 
   let hue = 0;
   const maxHue = 359;
-  let colorsFetchedCounter = 0;
 
   while (hue <= maxHue) {
-    const response = await apiCallback(hue, saturation, lightness);
-    const name = response?.name?.value?.toLowerCase();
+    let response;
+    try {
+      response = await apiCallback(hue, saturation, lightness);
+    } catch (error) {
+      onError?.(`failed to fetch color for hue ${hue}: `, error);
+      hue++; // try the next one
+      continue;
+    }
 
+    const name = response?.name?.value?.toLowerCase();
     if (!name || seenNames.has(name)) {
       hue++;
       continue;
     }
 
     seenNames.add(name);
-    colorsFetchedCounter += 1;
+
     distinctColors.push({
       name,
       hex: response.hex.clean,
       hue,
       rgb: response.rgb.value,
     });
-    onStep?.(colorsFetchedCounter);
     if (partial) {
       partial([...distinctColors]);
     }
@@ -42,9 +47,16 @@ export async function generateDistinctColors(
 
     while (low <= high) {
       const mid = Math.floor((low + high) / 2);
-      const midResponse = await apiCallback(mid, saturation, lightness);
-      const midName = midResponse?.name?.value?.toLowerCase();
+      let midResponse;
+      try {
+        midResponse = await apiCallback(mid, saturation, lightness);
+      } catch (error) {
+        onError?.(`failed to fetch color for hue ${mid}:`, error);
+        low = mid + 1; //skip this mid hue
+        continue;
+      }
 
+      const midName = midResponse?.name?.value?.toLowerCase();
       if (!midName || midName === name) {
         low = mid + 1;
       } else {
