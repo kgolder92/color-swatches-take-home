@@ -1,0 +1,15 @@
+.app-container {
+  padding: 24px;
+
+  .app-header-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .app-text-header {
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 4px;
+    }
+  }
+}

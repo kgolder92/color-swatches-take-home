@@ -1,0 +1,72 @@
+.swatchGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+}
+.skeleton {
+  background-color: rgb(240, 241, 242);
+  border-radius: 5px;
+  padding: 16px;
+  width: 150px;
+  max-width: 95px;
+  height: 90px;
+  margin: 8px;
+  box-shadow: "0 0 5px rgba(0,0,0,0.3)";
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+}
+.counterText {
+  align-self: center;
+}
+
+.colorSwatchWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.toast {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #333;
+  color: #fff;
+  padding: 12px 20px;
+  border-radius: 6px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  font-weight: bold;
+  animation: fadeInOut 3s ease-in-out;
+  z-index: 1000;
+}
+
+@media (max-width: 480px) {
+  .toast {
+    font-size: 0.85rem;
+    padding: 8px 12px;
+    bottom: 12px;
+  }
+}
+
+@keyframes fadeInOut {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, 20px);
+  }
+  10% {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+  90% {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, 20px);
+  }
+}
